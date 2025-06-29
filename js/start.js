@@ -1,4 +1,3 @@
-//------------------------
 'use strict'
 import { LEVELS } from './data/levelsData.js';
 import { AnimationRunner } from './frontEndRendering/animation.js';
@@ -11,6 +10,7 @@ class LevelManager {
 	constructor(levelPlans) {
 		this.levelPlans = levelPlans;
 		this.currentLevelIndex = 0;
+		this.lives = 3;
 		this._startLevel(this.currentLevelIndex);
 	}
 
@@ -35,9 +35,17 @@ class LevelManager {
 
 	_handleLevelEnd(status) {
 		if (status === 'lost') {
+			this.lives--;
+			
+			if(this.lives <= 0){
+				window.location.href = "lost.html";
+			}
+
 			this._startLevel(this.currentLevelIndex); // retry
+
 		} else if (this.currentLevelIndex < this.levelPlans.length - 1) {
 			this.currentLevelIndex++;
+			this.lives = 3;
 			this._startLevel(this.currentLevelIndex); // next level
 		} else {
 			alert('You win!');
