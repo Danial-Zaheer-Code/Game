@@ -20,6 +20,9 @@ export class Level {
         this.grid = [];
         this.actors = [];
 
+        //I dont know what i am doing
+        this.lives = 3;
+
         for (let y = 0; y < this.height; y++) {
             let line = plan[y];
             let gridLine = [];
@@ -99,8 +102,9 @@ export class Level {
 
     playerTouched(type, actor) {
         if (type == 'lava' && this.status == null) {
-            this.status = 'lost';
-            this.finishDelay = 1;
+                this.status = 'lost';
+                this.finishDelay = 1;
+
         } else if (type == 'coin') {
             this.actors = this.actors.filter(function (other) {
                 return other != actor; 
