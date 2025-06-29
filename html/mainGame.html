@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Simple Game</title>
+		<style>
+			body {
+				background: url('../images/w.jpg');
+				background-size: cover;
+			}
+
+			h2 {
+				color: #666;
+				font-family: monospace;
+				text-align: center;
+			}
+
+			.background {
+				table-layout: fixed;
+				border-spacing: 0;
+			}
+
+			.background td {
+				padding: 0;
+			}
+
+			.lava,
+			.actor {
+				background: #36FF01;
+			}
+
+			.wall {
+				background: #444;
+				border: solid 3px #333;
+				box-sizing: content-box;
+			}
+
+			.actor {
+				position: absolute;
+			}
+
+			.coin {
+				background: #e2e838;
+				border-radius: 50%;
+			}
+
+			.player {
+				background: #335699;
+				box-shadow: none;
+			}
+
+			.lost .player {
+				background: #a04040;
+			}
+
+			.won .player {
+				background: green;
+			}
+
+			.game {
+				position: relative;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Survival Game</h2>
+
+		<script type="module" src="../js/start.js"></script>
+	</body>
+</html>
