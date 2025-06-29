@@ -14,18 +14,26 @@
             align-items: center;
             height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
         }
 
         h1 {
-            color: #ff4c4c;
+            color: #82fe77;
             font-size: 64px;
             text-shadow: 2px 2px 8px #000;
             margin-bottom: 40px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
 
         .btn-container {
             display: flex;
             gap: 20px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
 
         button {
@@ -37,21 +45,159 @@
             transition: background-color 0.3s;
         }
 
-        .home-btn { background-color: #3498db; color: white; }
-        .home-btn:hover { background-color: #2980b9; }
+        .home-btn { background-color: #00a822; color: white; }
+        .home-btn:hover { background-color: #16a085; }
 
-        .restart-btn { background-color: #2ecc71; color: white; }
+        .restart-btn { background-color: #00aa00; color: white; }
         .restart-btn:hover { background-color: #27ae60; }
 
-        .exit-btn { background-color: #e74c3c; color: white; }
-        .exit-btn:hover { background-color: #c0392b; }
+        .random-text {
+            position: absolute;
+            color: #18c24b;
+            font-size: 24px;
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeInOut 4.5s ease-in-out forwards;
+            text-shadow: 0 0 5px #000;
+        }
+
+        #corner-image {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 5;
+        }
+
+        #right-image {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: auto;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 5;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+            20% { opacity: 1; transform: translateY(0) scale(1); }
+            80% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-20px) scale(1.2); }
+        }
     </style>
 </head>
 <body>
-    <h1>You Lost</h1>
-    <div class="btn-container">
+    <img id="corner-image" src="a.png" alt="Corner Image">
+    <img id="right-image" src="b.png" alt="Right Image">
+    
+    <h1 id="youLostText">You Lost</h1>
+    <div class="btn-container" id="buttons">
         <button class="home-btn" onclick="location.href='../index.html'">Home Page</button>
         <button class="restart-btn" onclick="location.href='mainGame.html'">Restart</button>
     </div>
+
+    <audio id="loseSound" src="evil-end.mp3" loop></audio>
+
+    <script>
+        const phrases = [
+            "You Don't Believe in Yourself",
+            "You Dumb!",
+            "Loser!",
+            "You are Just a Failure for Society",
+            "Just Leave It",
+            "You can't achieve your Goals!!",
+            "You are Heartless!",
+            "That was bad",
+            "So close",
+            "Almost had it"
+        ];
+
+        function createRandomText() {
+            const textElement = document.createElement('div');
+            textElement.className = 'random-text';
+            textElement.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+
+            const x = Math.random() * 70 + 15;
+            const y = Math.random() * 70 + 15;
+            textElement.style.left = `${x}%`;
+            textElement.style.top = `${y}%`;
+
+            const rotation = Math.random() * 30 - 15;
+            textElement.style.transform = `rotate(${rotation}deg)`;
+
+            document.body.appendChild(textElement);
+
+            setTimeout(() => {
+                if (textElement.parentNode) {
+                    textElement.parentNode.removeChild(textElement);
+                }
+            }, 4500);
+        }
+
+        let stopTextAnimation = false;
+
+        function startTextAnimation() {
+            createRandomText();
+            const intervalId = setInterval(() => {
+                if (stopTextAnimation) {
+                    clearInterval(intervalId);
+                    return;
+                }
+                createRandomText();
+            }, 800);
+        }
+
+        window.onload = function() {
+            const audio = document.getElementById('loseSound');
+            const youLostText = document.getElementById('youLostText');
+            const buttons = document.getElementById('buttons');
+            const cornerImage = document.getElementById('corner-image');
+            const rightImage = document.getElementById('right-image');
+
+            audio.volume = 0.5;
+            startTextAnimation();
+
+            // Fade in corner image after 10s
+            setTimeout(() => {
+                cornerImage.style.opacity = '1';
+            }, 10000);
+
+            // Fade out corner image after 1.5s
+            setTimeout(() => {
+                cornerImage.style.opacity = '0';
+            }, 1500);
+
+            // Autoplay audio
+            audio.play().then(() => {
+                // Playing fine
+            }).catch(error => {
+                audio.muted = true;
+                audio.play().then(() => {
+                    const unmuteOnInteraction = () => {
+                        audio.muted = false;
+                        document.removeEventListener('click', unmuteOnInteraction);
+                        document.removeEventListener('keydown', unmuteOnInteraction);
+                        document.removeEventListener('touchstart', unmuteOnInteraction);
+                    };
+                    document.addEventListener('click', unmuteOnInteraction);
+                    document.addEventListener('keydown', unmuteOnInteraction);
+                    document.addEventListener('touchstart', unmuteOnInteraction);
+                });
+            });
+
+            // Show text and buttons after 30s, and fade in b.png
+            setTimeout(() => {
+                youLostText.style.opacity = '1';
+                buttons.style.opacity = '1';
+                stopTextAnimation = true;
+                rightImage.style.opacity = '1'; // Fade in b.png
+            }, 30000);
+        };
+    </script>
 </body>
 </html>

@@ -66,6 +66,35 @@
 	</head>
 	<body>
 		<h2>Survival Game</h2>
+		
+		<!-- Audio Element -->
+		<audio id="bgSound" src="survive.mp3" loop></audio>
+
+		<script>
+			// Audio handling (same logic as your original)
+			window.addEventListener('load', () => {
+				const audio = document.getElementById('bgSound');
+				audio.volume = 0.5;
+
+				// Try to play
+				audio.play().then(() => {
+					console.log('Audio playing');
+				}).catch(() => {
+					// Autoplay blocked - wait for user interaction
+					audio.muted = true;
+					audio.play().then(() => {
+						const unmute = () => {
+							audio.muted = false;
+							console.log('Audio unmuted');
+							document.removeEventListener('click', unmute);
+							document.removeEventListener('keydown', unmute);
+						};
+						document.addEventListener('click', unmute);
+						document.addEventListener('keydown', unmute);
+					});
+				});
+			});
+		</script>
 
 		<script type="module" src="../js/start.js"></script>
 	</body>
