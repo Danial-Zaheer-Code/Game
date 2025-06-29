@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lava Game Menu</title>
+    <title>Lava Game Menu with Splash Screen</title>
     <style>
-       * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -18,23 +18,93 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
+        
+        /* Splash Screen Styles */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+        }
+        
+        .splash-content {
+            position: relative;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .splash-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #36FF01;
+            box-shadow: 0 0 30px rgba(54, 255, 1, 0.7);
+        }
+        
+        .circular-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: rotateText 15s linear infinite;
+        }
+        
+        .circular-text span {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform-origin: 0 100px;
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            color: #36FF01;
+            text-shadow: 0 0 10px rgba(54, 255, 1, 0.7);
+            letter-spacing: 1px;
+        }
+        
+        .splash-text {
+            margin-top: 30px;
+            font-size: 2.5rem;
+            color: #36FF01;
+            text-shadow: 0 0 20px rgba(54, 255, 1, 0.8);
+            animation: glowPulse 2s infinite alternate;
+        }
+        
         .menu-container {
             text-align: center;
             color: #36FF01;
             position: relative;
             z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
         }
+        
         .title {
             font-size: 4rem;
             text-shadow: 2px 2px 10px rgba(25, 155, 453, 0.7);  /*glow */
             margin-bottom: 50px;
+            animation: titleGlow 3s infinite alternate;
         }
+        
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+        
         .menu-button {
             background: linear-gradient(145deg, #296C02,#2D2DA8);
             color: white;
@@ -48,14 +118,18 @@
             box-shadow: 0px 10px 20px rgba(25, 155, 453, 0.4);
             transform: scale(1);
         }
+        
         .menu-button:hover {
             background: linear-gradient(160deg, #04FF61, #00B0FF);
             box-shadow: 0px 20px 40px rgba(25, 150, 500, 0.7);
             transform: scale(1.1);
+            animation: none; /* Disable lavaGlow on hover */
         }
+        
         .menu-button:active {
             transform: scale(0.95);
         }
+        
         @keyframes lavaGlow {
             0% {
                 color: #FF6347;
@@ -67,31 +141,96 @@
                 color: #4545FF;
             }
         }
+        
         .menu-button:hover {
             animation: lavaGlow 2s infinite;
+        }
+        
+        /* Splash Animations */
+        @keyframes pulse {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(0.95); }
+        }
+        
+        @keyframes rotateText {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes glowPulse {
+            from { text-shadow: 0 0 10px rgba(54, 255, 1, 0.8); }
+            to { text-shadow: 0 0 30px rgba(54, 255, 1, 1), 0 0 50px rgba(54, 255, 1, 0.9); }
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 2px 2px 10px rgba(25, 155, 453, 0.7); }
+            to { text-shadow: 0 0 20px rgba(25, 200, 453, 1), 0 0 40px rgba(25, 155, 453, 0.9); }
         }
     </style>
 </head>
 <body>
-    <div class="menu-container">
-        <h1 class="title">Toxic Game</h1>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <img src="abc.png" alt="Game Logo" class="splash-image">
+            <div class="circular-text">
+                <span style="transform: rotate(0deg)">J</span>
+                <span style="transform: rotate(20deg)">u</span>
+                <span style="transform: rotate(40deg)">m</span>
+                <span style="transform: rotate(60deg)">p</span>
+                <span style="transform: rotate(80deg)">&nbsp;</span>
+                <span style="transform: rotate(100deg)">i</span>
+                <span style="transform: rotate(120deg)">n</span>
+                <span style="transform: rotate(140deg)">&nbsp;</span>
+                <span style="transform: rotate(160deg)">G</span>
+                <span style="transform: rotate(180deg)">r</span>
+                <span style="transform: rotate(200deg)">e</span>
+                <span style="transform: rotate(220deg)">e</span>
+                <span style="transform: rotate(240deg)">n</span>
+                <span style="transform: rotate(260deg)">!</span>
+            </div>
+            <div class="splash-text">Jump in Green!</div>
+        </div>
+    </div>
+    
+    <!-- Main Menu -->
+    <div class="menu-container" id="menuContainer">
+        <h1 class="title">Fate Runner</h1>
         <div class="button-container">
             <button class="menu-button" id="playButton">Play</button>
             <button class="menu-button" id="modeButton">Mode</button>
             <button class="menu-button" id="quitButton">Quit</button>
         </div>
     </div>
+    
     <script>
+        // Handle splash screen animation
+        setTimeout(function() {
+            const splashScreen = document.getElementById('splashScreen');
+            splashScreen.style.opacity = '0';
+            
+            setTimeout(function() {
+                splashScreen.style.display = 'none';
+                // Show main menu with animation
+                const menuContainer = document.getElementById('menuContainer');
+                menuContainer.style.opacity = '1';
+                menuContainer.style.transform = 'translateY(0)';
+            }, 800);
+        }, 1500);
+        
+        // Button functionality
         document.getElementById('playButton').addEventListener('click', function() {
             window.location.href = 'html/mainGame.html';
         });
+        
         document.getElementById('modeButton').addEventListener('click', function() {
             alert("Mode feature coming soon!");
         });
+        
         document.getElementById('quitButton').addEventListener('click', function() {
             window.close();  // Closes the current window (works if opened via a script)
         });
     </script>
-
 </body>
 </html>
