@@ -1,4 +1,3 @@
-//----------------------------
 'use strict'
 import { LEVELS } from './data/levelsData.js';
 import { AnimationRunner } from './frontEndRendering/animation.js';
