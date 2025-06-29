@@ -1,7 +1,7 @@
 import {Vector} from '../vector.js';
 
 export class Player {
-    static playerXSpeed = 7;
+    static playerXSpeed = 10;
     static jumpSpeed = 17;
     static gravity = 30;
 
