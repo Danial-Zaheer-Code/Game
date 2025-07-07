@@ -1,5 +1,8 @@
+
+
 export class DOMDisplay {
 	static scale = 15;
+	static lives = 3;
 
 	static element(name, className) {
 		const elem = document.createElement(name);
@@ -11,9 +14,32 @@ export class DOMDisplay {
 		this.level = level;
 		this.wrap = parent.appendChild(DOMDisplay.element('div', 'game'));
 		this.actorLayer = null;
+		this.wrap.style.position = "relative";
 
+		this.wrap.appendChild(this._drawLives());
 		this.wrap.appendChild(this._drawBackground());
 		this.drawFrame();
+	}
+
+	_drawLives() {
+		const livesDiv = DOMDisplay.element('div', 'lives');
+
+		// ✅ Position the div in the top-right corner
+		livesDiv.style.position = "absolute";
+		livesDiv.style.top = "10px";
+		livesDiv.style.right = "10px";
+		livesDiv.style.zIndex = "1000";
+
+		for (let i = 0; i < DOMDisplay.lives; i++) {
+			const heartImg = document.createElement("img");
+			heartImg.src = "../../images/heart.png";
+			heartImg.alt = "Heart";
+			heartImg.style.width = "24px";
+			heartImg.style.marginLeft = "4px";
+			livesDiv.appendChild(heartImg);
+		}
+
+		return livesDiv;
 	}
 
 	_drawBackground() {
@@ -28,7 +54,7 @@ export class DOMDisplay {
 				rowElement.appendChild(DOMDisplay.element('td', type));
 			});
 		});
-
+		
 		return table;
 	}
 
