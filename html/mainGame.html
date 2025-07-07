@@ -6,58 +6,47 @@
 		<title>Simple Game</title>
 		<style>
 			body {
-				background: url('../images/w.jpg');
+				background: url('../images/bg-green.jpg');
 				background-size: cover;
 			}
-
 			h2 {
 				color: #666;
 				font-family: monospace;
 				text-align: center;
 			}
-
 			.background {
 				table-layout: fixed;
 				border-spacing: 0;
 			}
-
 			.background td {
 				padding: 0;
 			}
-
 			.lava,
 			.actor {
 				background: #36FF01;
 			}
-
 			.wall {
 				background: #444;
 				border: solid 3px #333;
 				box-sizing: content-box;
 			}
-
 			.actor {
 				position: absolute;
 			}
-
 			.coin {
 				background: #e2e838;
 				border-radius: 50%;
 			}
-
 			.player {
 				background: #004bd7;
 				box-shadow: none;
 			}
-
 			.lost .player {
 				background: #a04040;
 			}
-
 			.won .player {
 				background: green;
 			}
-
 			.game {
 				position: relative;
 				overflow: hidden;
@@ -67,21 +56,15 @@
 	<body>
 		<h2>Survival Game</h2>
 		
-		<!-- Audio Element -->
-		<!-- <audio id="loseSound" src="survive.mp3" loop></audio> -->
-		<audio id="bgSound" src="survive.mp3" loop></audio>
+		<audio id="bgSound" src="../audio/survive.mp3" loop></audio>
 
 		<script>
-			// Audio handling (same logic as your original)
 			window.addEventListener('load', () => {
 				const audio = document.getElementById('bgSound');
 				audio.volume = 0.5;
-
-				// Try to play
 				audio.play().then(() => {
 					console.log('Audio playing');
 				}).catch(() => {
-					// Autoplay blocked - wait for user interaction
 					audio.muted = true;
 					audio.play().then(() => {
 						const unmute = () => {
@@ -96,7 +79,6 @@
 				});
 			});
 		</script>
-
 		<script type="module" src="../js/start.js"></script>
 	</body>
 </html>
