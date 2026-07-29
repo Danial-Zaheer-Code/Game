@@ -4,18 +4,29 @@ import { AnimationRunner } from './frontEndRendering/animation.js';
 import { KeyTracker } from './bussinessLogic/keyTracker.js';
 import { DOMDisplay } from './frontEndRendering/domDisplay.js';
 import { Level } from './bussinessLogic/level.js';
+
 class LevelManager {
-	static arrowKeyMap = { 37: 'left', 38: 'up', 39: 'right' };
 	constructor(levelPlans) {
 		this.levelPlans = levelPlans;
 		this.currentLevelIndex = 0;
+		this.difficulty = localStorage.getItem('fateRunnerDifficulty') || 'normal';
+		
+		// Configure lives based on difficulty
+		if (this.difficulty === 'easy') {
+			DOMDisplay.lives = 5;
+		} else if (this.difficulty === 'hardcore') {
+			DOMDisplay.lives = 1;
+		} else {
+			DOMDisplay.lives = 3;
+		}
+
 		this._startLevel(this.currentLevelIndex);
 	}
 
 	_startLevel(index) {
-		const level = new Level(this.levelPlans[index]);
-		const display = new DOMDisplay(document.body, level);
-		const keyTracker = new KeyTracker(LevelManager.arrowKeyMap);
+		const level = new Level(this.levelPlans[index], this.difficulty);
+		const display = new DOMDisplay(document.body, level, index, this.levelPlans.length);
+		const keyTracker = new KeyTracker();
 
 		const frameStep = (step) => {
 			level.animate(step, keyTracker.keys);
@@ -33,22 +44,22 @@ class LevelManager {
 
 	_handleLevelEnd(status) {
 		if (status === 'lost') {
-			//lives--;
 			DOMDisplay.lives--;
-			if(DOMDisplay.lives <= 0){//this.lives <= 0){
+			if (DOMDisplay.lives <= 0) {
 				window.location.href = "lost.html";
+				return;
 			}
 
-			this._startLevel(this.currentLevelIndex); // retry
+			this._startLevel(this.currentLevelIndex); // retry current level
 
 		} else if (this.currentLevelIndex < this.levelPlans.length - 1) {
 			this.currentLevelIndex++;
-			this._startLevel(this.currentLevelIndex); // next level
+			this._startLevel(this.currentLevelIndex); // proceed to next level
 		} else {
-			alert('You win!');
+			alert('🏆 CONGRATULATIONS! YOU HAVE CONQUERED ALL LEVELS IN FATE RUNNER! 🏆');
+			window.location.href = "../index.html";
 		}
 	}
 }
 
-new LevelManager(LEVELS);
-///////////////////////////////////
+new LevelManager(LEVELS);//

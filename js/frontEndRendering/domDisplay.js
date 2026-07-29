@@ -1,5 +1,3 @@
-
-
 export class DOMDisplay {
 	static scale = 15;
 	static lives = 3;
@@ -10,36 +8,53 @@ export class DOMDisplay {
 		return elem;
 	}
 
-	constructor(parent, level) {
+	constructor(parent, level, currentLevelIndex = 0, totalLevels = 7) {
 		this.level = level;
+		this.currentLevelIndex = currentLevelIndex;
+		this.totalLevels = totalLevels;
 		this.wrap = parent.appendChild(DOMDisplay.element('div', 'game'));
 		this.actorLayer = null;
 		this.wrap.style.position = "relative";
 
-		this.wrap.appendChild(this._drawLives());
+		this._setupHUD();
 		this.wrap.appendChild(this._drawBackground());
 		this.drawFrame();
 	}
 
-	_drawLives() {
-		const livesDiv = DOMDisplay.element('div', 'lives');
+	_setupHUD() {
+		const hudLevel = document.getElementById('hudLevel');
+		if (hudLevel) hudLevel.textContent = `Level ${this.currentLevelIndex + 1} / ${this.totalLevels}`;
 
-		// ✅ Position the div in the top-right corner
-		livesDiv.style.position = "absolute";
-		livesDiv.style.top = "10px";
-		livesDiv.style.right = "10px";
-		livesDiv.style.zIndex = "1000";
+		const hudMode = document.getElementById('hudMode');
+		if (hudMode) {
+			const difficulty = (this.level.difficulty || 'normal').toUpperCase();
+			hudMode.textContent = difficulty;
+			hudMode.className = `hud-mode mode-${difficulty.toLowerCase()}`;
+		}
+
+		this._updateLivesDisplay();
+	}
+
+	_updateLivesDisplay() {
+		const hudLives = document.getElementById('hudLives');
+		if (!hudLives) return;
+		hudLives.innerHTML = '';
 
 		for (let i = 0; i < DOMDisplay.lives; i++) {
 			const heartImg = document.createElement("img");
-			heartImg.src = "../../images/heart.png";
+			heartImg.src = "../images/heart.png";
 			heartImg.alt = "Heart";
-			heartImg.style.width = "24px";
+			heartImg.style.width = "22px";
 			heartImg.style.marginLeft = "4px";
-			livesDiv.appendChild(heartImg);
+			hudLives.appendChild(heartImg);
 		}
+	}
 
-		return livesDiv;
+	_updateCoinsDisplay() {
+		const hudCoins = document.getElementById('hudCoins');
+		if (hudCoins) {
+			hudCoins.textContent = `🪙 ${this.level.collectedCoins} / ${this.level.totalCoins}`;
+		}
 	}
 
 	_drawBackground() {
@@ -78,6 +93,8 @@ export class DOMDisplay {
 		}
 		this.actorLayer = this.wrap.appendChild(this._drawActors());
 		this.wrap.className = 'game ' + (this.level.status || '');
+		this._updateCoinsDisplay();
+		this._updateLivesDisplay();
 		this._scrollPlayerIntoView();
 	}
 
@@ -92,6 +109,7 @@ export class DOMDisplay {
 		const bottom = top + height;
 
 		const player = this.level.player;
+		if (!player) return;
 		const center = player.pos.plus(player.size.times(0.5)).times(DOMDisplay.scale);
 
 		if (center.x < left + margin) {

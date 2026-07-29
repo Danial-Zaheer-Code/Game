@@ -1,7 +1,9 @@
 import { Player } from './actors/player.js';
 import { Lava } from './actors/lava.js';
-import {Vector} from '../bussinessLogic/vector.js';
+import { Vector } from '../bussinessLogic/vector.js';
 import { Coin } from './actors/coin.js';
+import { Spring } from './actors/spring.js';
+import { Enemy } from './actors/enemy.js';
 
 var actorchars = {
     '@': Player,
@@ -9,19 +11,22 @@ var actorchars = {
     '=': Lava,
     '|': Lava,
     v: Lava,
+    s: Spring,
+    e: Enemy,
 };
 
 export class Level {
     static maxStep = 0.05;
 
-    constructor(plan) {
+    constructor(plan, difficulty = 'normal') {
         this.width = plan[0].length;
         this.height = plan.length;
         this.grid = [];
         this.actors = [];
+        this.difficulty = difficulty;
 
-        //I dont know what i am doing
-        this.lives = 3;
+        // Lava speed modifier based on difficulty
+        const speedMult = difficulty === 'hardcore' ? 1.3 : difficulty === 'easy' ? 0.8 : 1.0;
 
         for (let y = 0; y < this.height; y++) {
             let line = plan[y];
@@ -33,12 +38,20 @@ export class Level {
 
                 let Actor = actorchars[ch];
                 if (Actor) {
-                    this.actors.push(new Actor(new Vector(x, y), ch));
+                    let actorInstance;
+                    if (ch === '=' || ch === '|' || ch === 'v') {
+                        actorInstance = new Actor(new Vector(x, y), ch);
+                        actorInstance.speed = actorInstance.speed.times(speedMult);
+                    } else if (ch === 'e') {
+                        actorInstance = new Actor(new Vector(x, y), speedMult);
+                    } else {
+                        actorInstance = new Actor(new Vector(x, y), ch);
+                    }
+                    this.actors.push(actorInstance);
                 } else if (ch === 'x') {
                     fieldType = 'wall';
                 } else if (ch === '!' || ch === '|' || ch === '=' || ch === 'v') {
                     fieldType = 'lava';
-                    if (ch === 'v') console.log(fieldType);
                 }
 
                 gridLine.push(fieldType);
@@ -48,6 +61,8 @@ export class Level {
         }
 
         this.player = this.actors.filter(actor => actor.type === 'player')[0];
+        this.totalCoins = this.actors.filter(actor => actor.type === 'coin').length;
+        this.collectedCoins = 0;
         this.status = null;
         this.finishDelay = null;
     }
@@ -101,14 +116,19 @@ export class Level {
     }
 
     playerTouched(type, actor) {
-        if (type == 'lava' && this.status == null) {
-                this.status = 'lost';
-                this.finishDelay = 1;
+        if ((type == 'lava' || type == 'enemy') && this.status == null) {
+            this.status = 'lost';
+            this.finishDelay = 1;
+
+        } else if (type == 'spring' && this.player) {
+            // Super launch player upward
+            this.player.speed.y = -30;
 
         } else if (type == 'coin') {
             this.actors = this.actors.filter(function (other) {
                 return other != actor; 
             });
+            this.collectedCoins++;
         
             if (!this.actors.some(function (actor) { return actor.type == 'coin';})) {
                 this.status = 'won';

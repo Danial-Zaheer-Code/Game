@@ -167,6 +167,124 @@
             from { text-shadow: 2px 2px 10px rgba(25, 155, 453, 0.7); }
             to { text-shadow: 0 0 20px rgba(25, 200, 453, 1), 0 0 40px rgba(25, 155, 453, 0.9); }
         }
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: rgba(15, 30, 15, 0.95);
+            border: 2px solid #36FF01;
+            box-shadow: 0 0 40px rgba(54, 255, 1, 0.4);
+            border-radius: 20px;
+            padding: 35px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            color: white;
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-size: 2.2rem;
+            color: #36FF01;
+            text-shadow: 0 0 15px rgba(54, 255, 1, 0.8);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mode-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .mode-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(54, 255, 1, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            position: relative;
+        }
+
+        .mode-card:hover {
+            background: rgba(54, 255, 1, 0.15);
+            border-color: #36FF01;
+            transform: translateX(5px);
+        }
+
+        .mode-card.selected {
+            background: linear-gradient(135deg, rgba(54, 255, 1, 0.25), rgba(0, 176, 255, 0.25));
+            border-color: #36FF01;
+            box-shadow: 0 0 15px rgba(54, 255, 1, 0.5);
+        }
+
+        .mode-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #36FF01;
+        }
+
+        .mode-card-desc {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-top: 5px;
+        }
+
+        .close-modal-btn {
+            background: linear-gradient(145deg, #296C02, #2D2DA8);
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 35px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal-btn:hover {
+            background: linear-gradient(160deg, #04FF61, #00B0FF);
+            transform: scale(1.05);
+        }
+
+        .mode-badge {
+            display: block;
+            font-size: 0.9rem;
+            color: #04FF61;
+            margin-top: 4px;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
@@ -184,7 +302,43 @@
         <h1 class="title">Fate Runner</h1>
         <div class="button-container">
             <button class="menu-button" id="playButton">Play</button>
-            <button class="menu-button" id="modeButton">Mode</button>
+            <button class="menu-button" id="modeButton">
+                Mode
+                <span class="mode-badge" id="currentModeBadge">(Normal)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Difficulty Mode Modal -->
+    <div class="modal-overlay" id="modeModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Select Difficulty</h2>
+            <div class="mode-options">
+                <div class="mode-card" data-mode="easy">
+                    <div class="mode-card-header">
+                        <span>🟢 Easy Mode</span>
+                        <span>5 Lives</span>
+                    </div>
+                    <div class="mode-card-desc">Slower hazards & extra lives. Perfect for exploring!</div>
+                </div>
+
+                <div class="mode-card" data-mode="normal">
+                    <div class="mode-card-header">
+                        <span>🟡 Normal Mode</span>
+                        <span>3 Lives</span>
+                    </div>
+                    <div class="mode-card-desc">Standard speed & balanced challenge. The classic experience!</div>
+                </div>
+
+                <div class="mode-card" data-mode="hardcore">
+                    <div class="mode-card-header">
+                        <span>🔴 Hardcore Mode</span>
+                        <span>1 Life</span>
+                    </div>
+                    <div class="mode-card-desc">25% faster hazards & single mistake death! For true masters!</div>
+                </div>
+            </div>
+            <button class="close-modal-btn" id="closeModalBtn">Confirm & Return</button>
         </div>
     </div>
     
@@ -203,15 +357,44 @@
             }, 800);
         }, 1500);
         
+        // Difficulty mode management
+        let currentMode = localStorage.getItem('fateRunnerDifficulty') || 'normal';
+        
+        function updateModeUI() {
+            const badge = document.getElementById('currentModeBadge');
+            badge.textContent = `(${currentMode.toUpperCase()})`;
+
+            document.querySelectorAll('.mode-card').forEach(card => {
+                if (card.dataset.mode === currentMode) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+        }
+        updateModeUI();
+
         // Button functionality
         document.getElementById('playButton').addEventListener('click', function() {
             window.location.href = 'html/mainGame.html';
         });
         
+        const modeModal = document.getElementById('modeModal');
         document.getElementById('modeButton').addEventListener('click', function() {
-            alert("Mode feature coming soon!");
+            modeModal.classList.add('active');
         });
-        /////////////////
+
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            modeModal.classList.remove('active');
+        });
+
+        document.querySelectorAll('.mode-card').forEach(card => {
+            card.addEventListener('click', function() {
+                currentMode = this.dataset.mode;
+                localStorage.setItem('fateRunnerDifficulty', currentMode);
+                updateModeUI();
+            });
+        });
     </script>
 </body>
 </html>
