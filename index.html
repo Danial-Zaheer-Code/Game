@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Arial', sans-serif;
             background: url('images/bg-menu-green.jpg') no-repeat center center fixed;
@@ -20,7 +22,7 @@
             align-items: center;
             overflow: hidden;
         }
-        
+
         /* Splash Screen Styles */
         .splash-screen {
             position: fixed;
@@ -36,13 +38,13 @@
             opacity: 1;
             transition: opacity 0.8s ease-in-out;
         }
-        
+
         .splash-content {
             position: relative;
             text-align: center;
             animation: pulse 2s infinite;
         }
-        
+
         .splash-image {
             width: 200px;
             height: 200px;
@@ -51,7 +53,7 @@
             border: 3px solid #36FF01;
             box-shadow: 0 0 30px rgba(54, 255, 1, 0.7);
         }
-        
+
         .circular-text {
             position: absolute;
             top: 0;
@@ -60,7 +62,7 @@
             height: 100%;
             animation: rotateText 15s linear infinite;
         }
-        
+
         .circular-text span {
             position: absolute;
             top: 0;
@@ -73,7 +75,7 @@
             text-shadow: 0 0 10px rgba(54, 255, 1, 0.7);
             letter-spacing: 1px;
         }
-        
+
         .splash-text {
             margin-top: 30px;
             font-size: 2.5rem;
@@ -81,7 +83,7 @@
             text-shadow: 0 0 20px rgba(54, 255, 1, 0.8);
             animation: glowPulse 2s infinite alternate;
         }
-        
+
         .menu-container {
             text-align: center;
             color: #36FF01;
@@ -91,22 +93,23 @@
             transform: translateY(20px);
             transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
         }
-        
+
         .title {
             font-size: 4rem;
-            text-shadow: 2px 2px 10px rgba(25, 155, 453, 0.7);  /*glow */
+            text-shadow: 2px 2px 10px rgba(25, 155, 453, 0.7);
+            /*glow */
             margin-bottom: 50px;
             animation: titleGlow 3s infinite alternate;
         }
-        
+
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-        
+
         .menu-button {
-            background: linear-gradient(145deg, #296C02,#2D2DA8);
+            background: linear-gradient(145deg, #296C02, #2D2DA8);
             color: white;
             font-size: 2rem;
             padding: 20px;
@@ -118,54 +121,80 @@
             box-shadow: 0px 10px 20px rgba(25, 155, 453, 0.4);
             transform: scale(1);
         }
-        
+
         .menu-button:hover {
             background: linear-gradient(160deg, #04FF61, #00B0FF);
             box-shadow: 0px 20px 40px rgba(25, 150, 500, 0.7);
             transform: scale(1.1);
-            animation: none; /* Disable lavaGlow on hover */
+            animation: none;
+            /* Disable lavaGlow on hover */
         }
-        
+
         .menu-button:active {
             transform: scale(0.95);
         }
-        
+
         @keyframes lavaGlow {
             0% {
                 color: #FF6347;
             }
+
             50% {
                 color: #36FF01;
             }
+
             100% {
                 color: #4545FF;
             }
         }
-        
+
         .menu-button:hover {
             animation: lavaGlow 2s infinite;
         }
-        
+
         /* Splash Animations */
         @keyframes pulse {
-            0% { transform: scale(0.95); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(0.95); }
+            0% {
+                transform: scale(0.95);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(0.95);
+            }
         }
-        
+
         @keyframes rotateText {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
+
         @keyframes glowPulse {
-            from { text-shadow: 0 0 10px rgba(54, 255, 1, 0.8); }
-            to { text-shadow: 0 0 30px rgba(54, 255, 1, 1), 0 0 50px rgba(54, 255, 1, 0.9); }
+            from {
+                text-shadow: 0 0 10px rgba(54, 255, 1, 0.8);
+            }
+
+            to {
+                text-shadow: 0 0 30px rgba(54, 255, 1, 1), 0 0 50px rgba(54, 255, 1, 0.9);
+            }
         }
-        
+
         @keyframes titleGlow {
-            from { text-shadow: 2px 2px 10px rgba(25, 155, 453, 0.7); }
-            to { text-shadow: 0 0 20px rgba(25, 200, 453, 1), 0 0 40px rgba(25, 155, 453, 0.9); }
+            from {
+                text-shadow: 2px 2px 10px rgba(25, 155, 453, 0.7);
+            }
+
+            to {
+                text-shadow: 0 0 20px rgba(25, 200, 453, 1), 0 0 40px rgba(25, 155, 453, 0.9);
+            }
         }
         /* Modal Styles */
         .modal-overlay {
@@ -287,16 +316,17 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Splash Screen -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-content">
             <img src="images/icon.png" alt="Game Logo" class="splash-image">
-            
+
             <div class="splash-text">Jump in Green!</div>
         </div>
     </div>
-    
+
     <!-- Main Menu -->
     <div class="menu-container" id="menuContainer">
         <h1 class="title">Fate Runner</h1>
@@ -304,7 +334,7 @@
             <button class="menu-button" id="playButton">Play</button>
             <button class="menu-button" id="modeButton">
                 Mode
-                <span class="mode-badge" id="currentModeBadge">(Normal)</span>
+                <span class="mode-badge" id="currentModeBadge">(NORMAL)</span>
             </button>
         </div>
     </div>
@@ -317,38 +347,38 @@
                 <div class="mode-card" data-mode="easy">
                     <div class="mode-card-header">
                         <span>🟢 Easy Mode</span>
-                        <span>5 Lives</span>
+                        <span>5 Hearts</span>
                     </div>
-                    <div class="mode-card-desc">Slower hazards & extra lives. Perfect for exploring!</div>
+                    <div class="mode-card-desc">Slower hazards & 5 extra hearts. Great for practice!</div>
                 </div>
 
                 <div class="mode-card" data-mode="normal">
                     <div class="mode-card-header">
                         <span>🟡 Normal Mode</span>
-                        <span>3 Lives</span>
+                        <span>3 Hearts</span>
                     </div>
-                    <div class="mode-card-desc">Standard speed & balanced challenge. The classic experience!</div>
+                    <div class="mode-card-desc">Standard speed & 3 hearts. The classic experience!</div>
                 </div>
 
                 <div class="mode-card" data-mode="hardcore">
                     <div class="mode-card-header">
                         <span>🔴 Hardcore Mode</span>
-                        <span>1 Life</span>
+                        <span>1 Heart</span>
                     </div>
-                    <div class="mode-card-desc">25% faster hazards & single mistake death! For true masters!</div>
+                    <div class="mode-card-desc">25% faster hazards & ONLY 1 HEART! True nightmare challenge!</div>
                 </div>
             </div>
             <button class="close-modal-btn" id="closeModalBtn">Confirm & Return</button>
         </div>
     </div>
-    
+
     <script>
         // Handle splash screen animation
-        setTimeout(function() {
+        setTimeout(function () {
             const splashScreen = document.getElementById('splashScreen');
             splashScreen.style.opacity = '0';
-            
-            setTimeout(function() {
+
+            setTimeout(function () {
                 splashScreen.style.display = 'none';
                 // Show main menu with animation
                 const menuContainer = document.getElementById('menuContainer');
@@ -356,13 +386,13 @@
                 menuContainer.style.transform = 'translateY(0)';
             }, 800);
         }, 1500);
-        
-        // Difficulty mode management
+
+        // Difficulty Mode Management
         let currentMode = localStorage.getItem('fateRunnerDifficulty') || 'normal';
-        
+
         function updateModeUI() {
             const badge = document.getElementById('currentModeBadge');
-            badge.textContent = `(${currentMode.toUpperCase()})`;
+            if (badge) badge.textContent = `(${currentMode.toUpperCase()})`;
 
             document.querySelectorAll('.mode-card').forEach(card => {
                 if (card.dataset.mode === currentMode) {
@@ -375,21 +405,21 @@
         updateModeUI();
 
         // Button functionality
-        document.getElementById('playButton').addEventListener('click', function() {
+        document.getElementById('playButton').addEventListener('click', function () {
             window.location.href = 'html/mainGame.html';
         });
-        
+
         const modeModal = document.getElementById('modeModal');
-        document.getElementById('modeButton').addEventListener('click', function() {
+        document.getElementById('modeButton').addEventListener('click', function () {
             modeModal.classList.add('active');
         });
 
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
+        document.getElementById('closeModalBtn').addEventListener('click', function () {
             modeModal.classList.remove('active');
         });
 
         document.querySelectorAll('.mode-card').forEach(card => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
                 currentMode = this.dataset.mode;
                 localStorage.setItem('fateRunnerDifficulty', currentMode);
                 updateModeUI();
@@ -397,4 +427,5 @@
         });
     </script>
 </body>
+
 </html>

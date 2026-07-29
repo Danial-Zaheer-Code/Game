@@ -5,6 +5,7 @@ export class KeyTracker {
 			37: 'left', 65: 'left',   // Left Arrow or 'A'
 			38: 'up', 87: 'up', 32: 'up', // Up Arrow or 'W' or Space
 			39: 'right', 68: 'right', // Right Arrow or 'D'
+			40: 'down', 83: 'down',  // Down Arrow or 'S'
 			27: 'pause', 80: 'pause'  // Escape or 'P'
 		};
 		this._handle = this._handler.bind(this);

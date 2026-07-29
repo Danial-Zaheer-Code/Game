@@ -9,10 +9,29 @@ export class Player {
         this.pos = pos.plus(new Vector(0, -0.5));
         this.size = new Vector(0.5, 1);
         this.speed = new Vector(0, 0);
+        this.isCrouched = false;
     }
 
     get type() {
         return 'player';
+    }
+
+    _handleCrouch(level, keys) {
+        if (keys.down) {
+            if (!this.isCrouched) {
+                this.isCrouched = true;
+                this.size = new Vector(0.5, 0.5);
+                this.pos = this.pos.plus(new Vector(0, 0.5));
+            }
+        } else if (this.isCrouched) {
+            const standingPos = this.pos.plus(new Vector(0, -0.5));
+            const standingSize = new Vector(0.5, 1);
+            if (!level.obstacleAt(standingPos, standingSize)) {
+                this.isCrouched = false;
+                this.pos = standingPos;
+                this.size = standingSize;
+            }
+        }
     }
 
     _moveX(step, level, keys) {
@@ -49,6 +68,7 @@ export class Player {
     }
 
     act(step, level, keys) {
+        this._handleCrouch(level, keys);
         this._moveX(step, level, keys);
         this._moveY(step, level, keys);
 

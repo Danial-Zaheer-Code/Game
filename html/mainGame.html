@@ -91,7 +91,6 @@
 			align-items: center;
 		}
 
-		/* Game Canvas Container */
 		.game {
 			position: relative;
 			overflow: hidden;
@@ -125,7 +124,7 @@
 			background: linear-gradient(135deg, #00d2ff, #004bd7);
 			border-radius: 4px;
 			box-shadow: 0 0 14px #00d2ff;
-			transition: transform 0.05s ease;
+			transition: height 0.1s ease, top 0.1s ease;
 		}
 
 		.lost .player {
@@ -156,8 +155,15 @@
 		.enemy {
 			background: linear-gradient(135deg, #09ff00, #00ffb3);
 			border-radius: 6px;
-			box-shadow: 0 0 14px #ff0055;
+			box-shadow: 0 0 14px #09ff00;
 			animation: enemyPulse 0.8s infinite alternate;
+		}
+
+		.trackingEnemy {
+			background: linear-gradient(135deg, #ffaa00, #ff3300);
+			border-radius: 50%;
+			box-shadow: 0 0 16px #ff3300;
+			animation: trackingPulse 0.6s infinite alternate;
 		}
 
 		/* Controls Guide Footer */
@@ -167,8 +173,8 @@
 			left: 50%;
 			transform: translateX(-50%);
 			font-size: 0.9rem;
-			color: rgba(255, 255, 255, 0.7);
-			background: rgba(0, 0, 0, 0.6);
+			color: rgba(255, 255, 255, 0.8);
+			background: rgba(0, 0, 0, 0.7);
 			padding: 6px 20px;
 			border-radius: 20px;
 			border: 1px solid rgba(54, 255, 1, 0.3);
@@ -197,25 +203,37 @@
 
 		@keyframes enemyPulse {
 			from {
-				box-shadow: 0 0 8px #ff0000;
+				box-shadow: 0 0 8px #09ff00;
 			}
 
 			to {
-				box-shadow: 0 0 18px #ea00ff;
+				box-shadow: 0 0 18px #00ffb3;
+			}
+		}
+
+		@keyframes trackingPulse {
+			from {
+				box-shadow: 0 0 10px #ff3300;
+				transform: scale(0.95);
+			}
+
+			to {
+				box-shadow: 0 0 20px #ffaa00;
+				transform: scale(1.05);
 			}
 		}
 
 		@keyframes pulseRed {
 			0% {
-				box-shadow: 0 0 5px #09ff00;
+				box-shadow: 0 0 5px #ff0000;
 			}
 
 			50% {
-				box-shadow: 0 0 15px #00ff0d;
+				box-shadow: 0 0 15px #ff0000;
 			}
 
 			100% {
-				box-shadow: 0 0 5px #15ff00;
+				box-shadow: 0 0 5px #ff0000;
 			}
 		}
 	</style>
@@ -236,7 +254,8 @@
 	<audio id="bgSound" src="../audio/survive.mp3" loop></audio>
 
 	<!-- Controls Footer -->
-	<div class="controls-guide">🎮 Controls: <b>WASD</b> or <b>Arrow Keys</b> to Move & Jump</div>
+	<div class="controls-guide">🎮 Controls: <b>WASD</b> or <b>Arrow Keys</b> | <b>S / Down</b> to Crouch | <b>W / Up /
+			Space</b> to Jump</div>
 
 	<script>
 		window.addEventListener('load', () => {
