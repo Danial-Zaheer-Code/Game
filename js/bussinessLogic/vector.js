@@ -8,6 +8,10 @@ export class Vector {
 		return new Vector(this.x + other.x, this.y + other.y);
 	}
 
+	minus(other) {
+		return new Vector(this.x - other.x, this.y - other.y);
+	}
+
 	times(scale) {
 		return new Vector(this.x * scale, this.y * scale);
 	}
