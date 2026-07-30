@@ -69,7 +69,7 @@ export class DOMDisplay {
 				rowElement.appendChild(DOMDisplay.element('td', type));
 			});
 		});
-		
+
 		return table;
 	}
 
@@ -98,10 +98,31 @@ export class DOMDisplay {
 				const opacity = 1 - (actor.progress || 0);
 				rect.style.transform = `scale(${0.3 + scale * 0.7})`;
 				rect.style.opacity = Math.max(0.1, opacity);
-			}
+			} else if (actor.emitterPos) {
+				rect.classList.add('laser-beam', `laser-${actor.axis}`);
+				// Render Laser Emitter Starting Block
+				const emitter = wrap.appendChild(DOMDisplay.element('div', `actor laser-emitter laser-${actor.axis} ${actor.state}`));
+				emitter.style.width = DOMDisplay.scale + 'px';
+				emitter.style.height = DOMDisplay.scale + 'px';
+				emitter.style.left = actor.emitterPos.x * DOMDisplay.scale + 'px';
+				emitter.style.top = actor.emitterPos.y * DOMDisplay.scale + 'px';
+				emitter.appendChild(DOMDisplay.element('div', 'laser-nozzle'));
+				emitter.appendChild(DOMDisplay.element('div', 'laser-barrel'));
 
-			if (actor.axis) {
-				rect.classList.add('laser-' + actor.axis);
+				// Position beam element
+				if (actor.beamPos && actor.beamSize) {
+					rect.style.width = actor.beamSize.x * DOMDisplay.scale + 'px';
+					rect.style.height = actor.beamSize.y * DOMDisplay.scale + 'px';
+					rect.style.left = actor.beamPos.x * DOMDisplay.scale + 'px';
+					rect.style.top = actor.beamPos.y * DOMDisplay.scale + 'px';
+				}
+
+				if (actor.state === 'off') {
+					rect.style.display = 'none';
+				} else {
+					rect.style.display = 'block';
+					rect.appendChild(DOMDisplay.element('div', 'laser-energy-flow'));
+				}
 			}
 		});
 

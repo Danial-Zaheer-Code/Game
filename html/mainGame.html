@@ -365,54 +365,217 @@
 				0 0 20px rgba(255, 150, 0, 0.9),
 				0 0 40px rgba(255, 80, 0, 0.6),
 				0 0 60px rgba(200, 30, 0, 0.3);
-		/* Laser Hazard - Charging phase (0.5s warning beam) */
+			z-index: 15;
+			pointer-events: none;
+		}
+
+		/* Laser Emitter Starting Point (High-Tech Armored Base) */
+		.laser-emitter {
+			background: radial-gradient(circle at 35% 35%, #4a1525, #18050c) !important;
+			border: 2px solid #ff0055 !important;
+			border-radius: 5px;
+			box-shadow:
+				0 0 12px rgba(255, 0, 85, 0.6),
+				inset 0 0 8px rgba(0, 0, 0, 0.9) !important;
+			z-index: 15;
+			overflow: visible;
+			transition: all 0.2s ease;
+		}
+
+		.laser-emitter.charging {
+			border-color: #ff3388 !important;
+			box-shadow:
+				0 0 20px #ff007f,
+				inset 0 0 10px rgba(255, 0, 127, 0.7) !important;
+			animation: emitterWarmup 0.12s infinite alternate;
+		}
+
+		.laser-emitter.on {
+			border-color: #ffffff !important;
+			box-shadow:
+				0 0 25px #ff0055,
+				0 0 45px #ff007f,
+				inset 0 0 12px #ffffff !important;
+			animation: emitterFire 0.08s infinite alternate;
+		}
+
+		/* Emitter Core Nozzle Lens */
+		.laser-nozzle {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 10px;
+			height: 10px;
+			margin-top: -5px;
+			margin-left: -5px;
+			background: radial-gradient(circle, #ffffff 10%, #ff0055 60%, #990033 100%) !important;
+			border-radius: 50%;
+			box-shadow: 0 0 10px #ff0055, 0 0 20px #ff007f !important;
+			z-index: 2;
+		}
+
+		.laser-emitter.charging .laser-nozzle {
+			background: radial-gradient(circle, #ffffff 20%, #ff3388 70%, #ff0055 100%) !important;
+			box-shadow: 0 0 15px #ff3388, 0 0 25px #ff007f !important;
+		}
+
+		.laser-emitter.on .laser-nozzle {
+			background: radial-gradient(circle, #ffffff 40%, #ff007f 80%, #ff0033 100%) !important;
+			box-shadow: 0 0 25px #ffffff, 0 0 40px #ff0055 !important;
+		}
+
+		/* Emitter Nozzle Barrel Extension */
+		.laser-barrel {
+			position: absolute;
+			background: linear-gradient(90deg, #3a101d, #ff0055, #ff007f) !important;
+			box-shadow: 0 0 8px #ff0055 !important;
+			border-radius: 2px;
+		}
+
+		.laser-emitter.laser-x .laser-barrel {
+			top: 50%;
+			right: -5px;
+			width: 8px;
+			height: 6px;
+			margin-top: -3px;
+		}
+
+		.laser-emitter.laser-y .laser-barrel {
+			bottom: -5px;
+			left: 50%;
+			width: 6px;
+			height: 8px;
+			margin-left: -3px;
+			background: linear-gradient(180deg, #3a101d, #ff0055, #ff007f) !important;
+		}
+
+		/* Laser Beam - Charging Warning Line (0.5s) */
 		.laserCharging {
-			background: rgba(0, 247, 255, 0.2);
-			border: 1px dashed rgba(0, 247, 255, 0.6);
-			box-shadow: 0 0 8px rgba(0, 247, 255, 0.4);
-			animation: laserPulse 0.15s infinite alternate;
+			background: rgba(255, 0, 85, 0.3) !important;
+			border: 1px dashed rgba(255, 51, 136, 0.9) !important;
+			box-shadow: 0 0 10px rgba(255, 0, 85, 0.6) !important;
+			animation: laserChargeScan 0.1s infinite alternate;
 			z-index: 12;
 		}
 
-		/* Laser Hazard - Active ON phase (3.0s lethal beam) */
-		.laser {
-			background: linear-gradient(90deg, #ffffff, #00f7ff, #ffffff);
-			box-shadow:
-				0 0 8px #ffffff,
-				0 0 16px #00f7ff,
-				0 0 28px #00a2ff,
-				0 0 40px rgba(0, 162, 255, 0.8);
-			animation: laserActive 0.1s infinite alternate;
+		/* Laser Beam - Active Lethal Red Beam with Alternating Pink-Red Glow (3.0s) */
+		.laserOn {
+			background: linear-gradient(90deg, #ffffff 0%, #ff0055 25%, #ff007f 50%, #ff0033 75%, #ffffff 100%) !important;
+			background-size: 200% 200% !important;
+			animation:
+				laserEnergyStream 0.3s linear infinite,
+				pinkRedGlowAlternate 0.25s ease-in-out infinite alternate,
+				laserFlicker 0.08s infinite alternate;
 			z-index: 14;
 		}
 
-		.laser.laser-y {
-			background: linear-gradient(180deg, #ffffff, #00f7ff, #ffffff);
+		.laserOn.laser-y {
+			background: linear-gradient(180deg, #ffffff 0%, #ff0055 25%, #ff007f 50%, #ff0033 75%, #ffffff 100%) !important;
+			background-size: 200% 200% !important;
 		}
 
-		@keyframes laserPulse {
-			from {
-				opacity: 0.3;
-			}
-			to {
-				opacity: 0.8;
-			}
+		.laser-energy-flow {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: repeating-linear-gradient(90deg,
+					transparent,
+					transparent 12px,
+					rgba(255, 255, 255, 0.7) 12px,
+					rgba(255, 255, 255, 0.7) 24px) !important;
+			animation: energyFlowMove 0.25s linear infinite;
 		}
 
-		@keyframes laserActive {
-			from {
-				box-shadow:
-					0 0 8px #ffffff,
-					0 0 16px #00f7ff,
-					0 0 28px #00a2ff;
+			@keyframes emitterWarmup {
+				from {
+					transform: scale(0.96);
+				}
+
+				to {
+					transform: scale(1.06);
+				}
 			}
-			to {
-				box-shadow:
-					0 0 12px #ffffff,
-					0 0 24px #00f7ff,
-					0 0 45px #00a2ff;
+
+			@keyframes emitterFire {
+				from {
+					transform: scale(1.0);
+				}
+
+				to {
+					transform: scale(1.1);
+				}
 			}
-		}
+
+			@keyframes laserChargeScan {
+				from {
+					opacity: 0.25;
+				}
+
+				to {
+					opacity: 0.95;
+				}
+			}
+
+			@keyframes laserEnergyStream {
+				0% {
+					background-position: 0% 50%;
+				}
+
+				100% {
+					background-position: 200% 50%;
+				}
+			}
+
+			/* Alternating Pink & Red Neon Glow */
+			@keyframes pinkRedGlowAlternate {
+				0% {
+					box-shadow:
+						0 0 10px #ffffff,
+						0 0 20px #ff0055,
+						0 0 35px #ff007f,
+						0 0 55px rgba(255, 0, 85, 0.9);
+				}
+
+				50% {
+					box-shadow:
+						0 0 14px #ffffff,
+						0 0 28px #ff007f,
+						0 0 45px #ff0033,
+						0 0 65px rgba(255, 0, 127, 0.95);
+				}
+
+				100% {
+					box-shadow:
+						0 0 18px #ffffff,
+						0 0 32px #ff0033,
+						0 0 50px #ff0055,
+						0 0 75px rgba(255, 0, 51, 1);
+				}
+			}
+
+			@keyframes laserFlicker {
+				from {
+					opacity: 0.88;
+					transform: scaleY(0.92);
+				}
+
+				to {
+					opacity: 1.0;
+					transform: scaleY(1.08);
+				}
+			}
+
+			@keyframes energyFlowMove {
+				0% {
+					background-position: 0 0;
+				}
+
+				100% {
+					background-position: 48px 0;
+				}
+			}
 	</style>
 </head>
 
