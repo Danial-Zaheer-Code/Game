@@ -6,6 +6,8 @@ import { Spring } from './actors/spring.js';
 import { Enemy } from './actors/enemy.js';
 import { TrackingEnemy } from './actors/trackingEnemy.js';
 import { Turret } from './actors/turret.js';
+import { Cannon } from './actors/cannon.js';
+import { Laser } from './actors/laser.js';
 
 var actorchars = {
     '@': Player,
@@ -17,6 +19,11 @@ var actorchars = {
     e: Enemy,
     t: TrackingEnemy,
     'T': Turret,
+    'C': Cannon,
+    'H': Laser,
+    'V': Laser,
+    'L': Laser,
+    'l': Laser,
 };
 
 export class Level {
@@ -46,7 +53,7 @@ export class Level {
                     if (ch === '=' || ch === '|' || ch === 'v') {
                         actorInstance = new Actor(new Vector(x, y), ch);
                         actorInstance.speed = actorInstance.speed.times(speedMult);
-                    } else if (ch === 'e' || ch === 't' || ch === 'T') {
+                    } else if (ch === 'e' || ch === 't' || ch === 'T' || ch === 'C') {
                         actorInstance = new Actor(new Vector(x, y), speedMult);
                     } else {
                         actorInstance = new Actor(new Vector(x, y), ch);
@@ -120,7 +127,7 @@ export class Level {
     }
 
     playerTouched(type, actor) {
-        if ((type == 'lava' || type == 'enemy' || type == 'trackingEnemy' || type == 'bullet') && this.status == null) {
+        if ((type == 'lava' || type == 'enemy' || type == 'trackingEnemy' || type == 'bullet' || type == 'cannonBall' || type == 'explosion' || type == 'laser') && this.status == null) {
             this.status = 'lost';
             this.finishDelay = 1;
 
