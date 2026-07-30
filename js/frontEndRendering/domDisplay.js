@@ -86,8 +86,18 @@ export class DOMDisplay {
 			if (actor.type === 'turret') {
 				const barrel = rect.appendChild(DOMDisplay.element('div', 'turret-barrel'));
 				barrel.style.transform = `rotate(${actor.angle}rad)`;
+			} else if (actor.type === 'cannon') {
+				const barrel = rect.appendChild(DOMDisplay.element('div', 'cannon-barrel'));
+				barrel.style.transform = `rotate(${actor.angle}rad)`;
 			} else if (actor.type === 'bullet' && actor.angle !== undefined) {
 				rect.style.transform = `rotate(${actor.angle}rad)`;
+			} else if (actor.type === 'cannonBall' && actor.angle !== undefined) {
+				rect.style.transform = `rotate(${actor.angle}rad)`;
+			} else if (actor.type === 'explosion') {
+				const scale = actor.progress !== undefined ? actor.progress : 1;
+				const opacity = 1 - (actor.progress || 0);
+				rect.style.transform = `scale(${0.3 + scale * 0.7})`;
+				rect.style.opacity = Math.max(0.1, opacity);
 			}
 		});
 

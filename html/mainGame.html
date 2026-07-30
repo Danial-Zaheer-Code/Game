@@ -287,6 +287,87 @@
 					0 0 30px rgba(255, 50, 0, 0.7);
 			}
 		}
+
+		/* Cannon - dark armored look with purple-red menacing glow */
+		.cannon {
+			background: radial-gradient(circle at 35% 35%, #555, #1a1a2e);
+			border: 2px solid #9b59b6;
+			border-radius: 6px;
+			box-shadow: 0 0 14px rgba(155, 89, 182, 0.8), inset 0 0 8px rgba(0, 0, 0, 0.6);
+			overflow: visible;
+			z-index: 5;
+			animation: cannonIdle 2s infinite alternate;
+		}
+
+		.cannon-barrel {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 22px;
+			height: 10px;
+			margin-top: -5px;
+			margin-left: 0;
+			transform-origin: 0% 50%;
+			background: linear-gradient(90deg, #666, #9b59b6, #c300ff);
+			border-radius: 0 5px 5px 0;
+			box-shadow: 0 0 12px rgba(155, 89, 182, 0.9);
+		}
+
+		@keyframes cannonIdle {
+			from {
+				box-shadow: 0 0 10px rgba(155, 89, 182, 0.6), inset 0 0 6px rgba(0, 0, 0, 0.6);
+			}
+
+			to {
+				box-shadow: 0 0 20px rgba(155, 89, 182, 1), inset 0 0 6px rgba(0, 0, 0, 0.6);
+			}
+		}
+
+		/* Cannon Ball - glowing yellow-orange projectile */
+		.cannonBall {
+			background: radial-gradient(circle at 35% 35%, #ffffff, #ffee00, #ff7700, #cc3300);
+			border-radius: 50%;
+			box-shadow:
+				0 0 6px #e5ff00,
+				0 0 14px rgba(255, 174, 0, 0.8),
+				0 0 22px rgb(255, 136, 0);
+			animation: cannonBallGlow 0.25s infinite alternate;
+			z-index: 10;
+		}
+
+		@keyframes cannonBallGlow {
+			from {
+				box-shadow:
+					0 0 6px #e5ff00,
+					0 0 14px rgba(255, 174, 0, 0.8),
+					0 0 22px rgb(255, 136, 0);
+			}
+
+			to {
+				box-shadow:
+					0 0 12px #fbff00,
+					0 0 24px rgb(255, 187, 0),
+					0 0 36px rgb(255, 145, 0);
+			}
+		}
+
+		/* Explosion - fiery blast with expanding ring */
+		.explosion {
+			background: radial-gradient(circle,
+					rgba(255, 255, 200, 0.9) 0%,
+					rgba(255, 180, 50, 0.8) 20%,
+					rgba(255, 80, 0, 0.6) 45%,
+					rgba(200, 30, 0, 0.4) 65%,
+					rgba(100, 0, 0, 0.1) 85%,
+					transparent 100%);
+			border-radius: 50%;
+			box-shadow:
+				0 0 20px rgba(255, 150, 0, 0.9),
+				0 0 40px rgba(255, 80, 0, 0.6),
+				0 0 60px rgba(200, 30, 0, 0.3);
+			z-index: 15;
+			pointer-events: none;
+		}
 	</style>
 </head>
 

@@ -1,29 +1,29 @@
 import { Vector } from '../vector.js';
-import { Bullet } from './bullet.js';
+import { CannonBall } from './cannonBall.js';
 
-export class Turret {
+export class Cannon {
     constructor(pos, speedMultiplier = 1) {
         this.pos = pos;
-        this.size = new Vector(0.9, 0.9);
+        this.size = new Vector(1.5, 1.5);
         this.speedMultiplier = speedMultiplier;
         this.shootTimer = 0;
-        this.fireInterval = 2.0 / speedMultiplier; // Firerate scales with difficulty
+        this.fireInterval = 3.0 / speedMultiplier; // Firerate scales with difficulty
         this.angle = 0;
     }
 
     get type() {
-        return 'turret';
+        return 'cannon';
     }
 
     act(step, level) {
         const player = level.player;
         if (!player) return;
 
-        // Calculate center of turret and center of player
-        const turretCenter = this.pos.plus(this.size.times(0.5));
+        // Calculate center of cannon and center of player
+        const cannonCenter = this.pos.plus(this.size.times(0.5));
         const playerCenter = player.pos.plus(player.size.times(0.5));
 
-        const dir = playerCenter.minus(turretCenter);
+        const dir = playerCenter.minus(cannonCenter);
         const dist = Math.sqrt(dir.x * dir.x + dir.y * dir.y);
 
         if (dist > 0.001) {
@@ -34,12 +34,12 @@ export class Turret {
             if (this.shootTimer >= this.fireInterval) {
                 this.shootTimer -= this.fireInterval;
 
-                // Spawn bullet at center of turret
-                const bulletSize = new Vector(0.4, 0.4);
-                const spawnPos = turretCenter.minus(bulletSize.times(0.5));
-                const bullet = new Bullet(spawnPos, normDir, this.speedMultiplier);
+                // Spawn cannon ball at center of cannon
+                const ballSize = new Vector(1.0, 1.0);
+                const spawnPos = cannonCenter.minus(ballSize.times(0.5));
+                const cannonBall = new CannonBall(spawnPos, normDir, this.speedMultiplier);
 
-                level.actors.push(bullet);
+                level.actors.push(cannonBall);
             }
         }
     }
