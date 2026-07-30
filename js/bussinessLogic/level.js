@@ -5,6 +5,7 @@ import { Coin } from './actors/coin.js';
 import { Spring } from './actors/spring.js';
 import { Enemy } from './actors/enemy.js';
 import { TrackingEnemy } from './actors/trackingEnemy.js';
+import { Turret } from './actors/turret.js';
 
 var actorchars = {
     '@': Player,
@@ -15,6 +16,7 @@ var actorchars = {
     s: Spring,
     e: Enemy,
     t: TrackingEnemy,
+    'T': Turret,
 };
 
 export class Level {
@@ -44,7 +46,7 @@ export class Level {
                     if (ch === '=' || ch === '|' || ch === 'v') {
                         actorInstance = new Actor(new Vector(x, y), ch);
                         actorInstance.speed = actorInstance.speed.times(speedMult);
-                    } else if (ch === 'e' || ch === 't') {
+                    } else if (ch === 'e' || ch === 't' || ch === 'T') {
                         actorInstance = new Actor(new Vector(x, y), speedMult);
                     } else {
                         actorInstance = new Actor(new Vector(x, y), ch);
@@ -118,7 +120,7 @@ export class Level {
     }
 
     playerTouched(type, actor) {
-        if ((type == 'lava' || type == 'enemy' || type == 'trackingEnemy') && this.status == null) {
+        if ((type == 'lava' || type == 'enemy' || type == 'trackingEnemy' || type == 'bullet') && this.status == null) {
             this.status = 'lost';
             this.finishDelay = 1;
 

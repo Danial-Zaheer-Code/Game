@@ -30,7 +30,7 @@ export var LEVELS = [
     '  x                              x                 x                       x                               x  ',
     '  x                              x|||||||||||||||||x                       x                               x  ',
     '  x                              x                 x                       x                               x  ',
-    '  x                              x                 x                       x                  s          o x  ',
+    '  x                              x                 x                       x               T  s          o x  ',
     '  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!xxxxxxxxxxxxxxxxx!xxxxxxxxxxxxxxxxxxxxxxx!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ',
     '                                                                                                              '
   ],

@@ -82,6 +82,13 @@ export class DOMDisplay {
 			rect.style.height = actor.size.y * DOMDisplay.scale + 'px';
 			rect.style.left = actor.pos.x * DOMDisplay.scale + 'px';
 			rect.style.top = actor.pos.y * DOMDisplay.scale + 'px';
+
+			if (actor.type === 'turret') {
+				const barrel = rect.appendChild(DOMDisplay.element('div', 'turret-barrel'));
+				barrel.style.transform = `rotate(${actor.angle}rad)`;
+			} else if (actor.type === 'bullet' && actor.angle !== undefined) {
+				rect.style.transform = `rotate(${actor.angle}rad)`;
+			}
 		});
 
 		return wrap;
