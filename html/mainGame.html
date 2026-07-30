@@ -365,8 +365,53 @@
 				0 0 20px rgba(255, 150, 0, 0.9),
 				0 0 40px rgba(255, 80, 0, 0.6),
 				0 0 60px rgba(200, 30, 0, 0.3);
-			z-index: 15;
-			pointer-events: none;
+		/* Laser Hazard - Charging phase (0.5s warning beam) */
+		.laserCharging {
+			background: rgba(0, 247, 255, 0.2);
+			border: 1px dashed rgba(0, 247, 255, 0.6);
+			box-shadow: 0 0 8px rgba(0, 247, 255, 0.4);
+			animation: laserPulse 0.15s infinite alternate;
+			z-index: 12;
+		}
+
+		/* Laser Hazard - Active ON phase (3.0s lethal beam) */
+		.laser {
+			background: linear-gradient(90deg, #ffffff, #00f7ff, #ffffff);
+			box-shadow:
+				0 0 8px #ffffff,
+				0 0 16px #00f7ff,
+				0 0 28px #00a2ff,
+				0 0 40px rgba(0, 162, 255, 0.8);
+			animation: laserActive 0.1s infinite alternate;
+			z-index: 14;
+		}
+
+		.laser.laser-y {
+			background: linear-gradient(180deg, #ffffff, #00f7ff, #ffffff);
+		}
+
+		@keyframes laserPulse {
+			from {
+				opacity: 0.3;
+			}
+			to {
+				opacity: 0.8;
+			}
+		}
+
+		@keyframes laserActive {
+			from {
+				box-shadow:
+					0 0 8px #ffffff,
+					0 0 16px #00f7ff,
+					0 0 28px #00a2ff;
+			}
+			to {
+				box-shadow:
+					0 0 12px #ffffff,
+					0 0 24px #00f7ff,
+					0 0 45px #00a2ff;
+			}
 		}
 	</style>
 </head>

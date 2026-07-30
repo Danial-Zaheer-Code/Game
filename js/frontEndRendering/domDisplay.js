@@ -99,6 +99,10 @@ export class DOMDisplay {
 				rect.style.transform = `scale(${0.3 + scale * 0.7})`;
 				rect.style.opacity = Math.max(0.1, opacity);
 			}
+
+			if (actor.axis) {
+				rect.classList.add('laser-' + actor.axis);
+			}
 		});
 
 		return wrap;
