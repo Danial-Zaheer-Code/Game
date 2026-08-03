@@ -8,7 +8,7 @@ export class DOMDisplay {
 		return elem;
 	}
 
-	constructor(parent, level, currentLevelIndex = 0, totalLevels = 7) {
+	constructor(parent, level, currentLevelIndex = 0, totalLevels = 9) {
 		this.level = level;
 		this.currentLevelIndex = currentLevelIndex;
 		this.totalLevels = totalLevels;
