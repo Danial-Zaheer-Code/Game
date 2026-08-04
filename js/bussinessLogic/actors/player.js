@@ -4,6 +4,7 @@ export class Player {
     static playerXSpeed = 10;
     static jumpSpeed = 17;
     static gravity = 30;
+    static climbSpeed = 8;
 
     constructor(pos) {
         this.pos = pos.plus(new Vector(0, -0.5));
@@ -49,26 +50,70 @@ export class Player {
         }
     }
 
-    _moveY(step, level, keys) {
-        this.speed.y += step * Player.gravity;
-        const motion = new Vector(0, this.speed.y * step);
-        const newPos = this.pos.plus(motion);
-        const obstacle = level.obstacleAt(newPos, this.size);
+    _isOnLadder(level) {
+        return level.actors.some(actor => 
+            actor.type === 'ladder' &&
+            this.pos.x + this.size.x > actor.pos.x &&
+            this.pos.x < actor.pos.x + actor.size.x &&
+            this.pos.y + this.size.y > actor.pos.y &&
+            this.pos.y < actor.pos.y + actor.size.y
+        );
+    }
 
-        if (obstacle) {
-            level.playerTouched(obstacle);
-            if (keys.up && this.speed.y > 0) {
-                this.speed.y = -Player.jumpSpeed;
+    _moveY(step, level, keys) {
+        const onLadder = this._isOnLadder(level);
+
+        if (onLadder) {
+            this.speed.y = 0;
+            if (keys.up) {
+                this.speed.y = -Player.climbSpeed;
+            } else if (keys.down) {
+                this.speed.y = Player.climbSpeed;
+            }
+
+            const motion = new Vector(0, this.speed.y * step);
+            const newPos = this.pos.plus(motion);
+            const obstacle = level.obstacleAt(newPos, this.size);
+
+            if (obstacle) {
+                level.playerTouched(obstacle);
             } else {
-                this.speed.y = 0;
+                this.pos = newPos;
             }
         } else {
-            this.pos = newPos;
+            // Off ladder: gravity pulls player down (player falls)
+            this.speed.y += step * Player.gravity;
+            const motion = new Vector(0, this.speed.y * step);
+            const newPos = this.pos.plus(motion);
+            const obstacle = level.obstacleAt(newPos, this.size);
+
+            if (obstacle) {
+                level.playerTouched(obstacle);
+                if (keys.up && this.speed.y > 0) {
+                    this.speed.y = -Player.jumpSpeed;
+                } else {
+                    this.speed.y = 0;
+                }
+            } else {
+                this.pos = newPos;
+            }
         }
     }
 
     act(step, level, keys) {
-        this._handleCrouch(level, keys);
+        const onLadder = this._isOnLadder(level);
+        if (!onLadder) {
+            this._handleCrouch(level, keys);
+        } else if (this.isCrouched) {
+            const standingPos = this.pos.plus(new Vector(0, -0.5));
+            const standingSize = new Vector(0.5, 1);
+            if (!level.obstacleAt(standingPos, standingSize)) {
+                this.isCrouched = false;
+                this.pos = standingPos;
+                this.size = standingSize;
+            }
+        }
+
         this._moveX(step, level, keys);
         this._moveY(step, level, keys);
 
