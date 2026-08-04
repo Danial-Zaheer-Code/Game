@@ -4,8 +4,8 @@ export class Laser {
     constructor(pos, ch) {
         this.emitterPos = pos;
         this.ch = ch;
-        // 'H' or 'L' for X-axis (horizontal), 'V' or 'l' for Y-axis (vertical)
-        this.axis = (ch === 'V' || ch === 'l') ? 'y' : 'x';
+        // 'H' for X-axis (horizontal), 'V' for Y-axis (vertical)
+        this.axis = (ch === 'V') ? 'y' : 'x';
         
         // Beam geometry (calculated once grid is available)
         this.beamPos = pos;

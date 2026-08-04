@@ -8,6 +8,7 @@ import { TrackingEnemy } from './actors/trackingEnemy.js';
 import { Turret } from './actors/turret.js';
 import { Cannon } from './actors/cannon.js';
 import { Laser } from './actors/laser.js';
+import { Ladder } from './actors/ladder.js';
 
 var actorchars = {
     '@': Player,
@@ -22,8 +23,8 @@ var actorchars = {
     'C': Cannon,
     'H': Laser,
     'V': Laser,
-    'L': Laser,
-    'l': Laser,
+    'L': Ladder,
+    'l': Ladder,
 };
 
 export class Level {
