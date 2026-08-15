@@ -35,8 +35,8 @@ export var LEVELS = [
     '  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!xxxxxxxxxxxxxxxxx!xxxxxxxxxxxxxxxxxxxxxxx!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ',
     '                                                                                                              '
   ],
-
-
+  
+  
   [
     '                                                                                ',
     '                                                                                ',
@@ -65,11 +65,11 @@ export var LEVELS = [
   ],
   [
     '                                      x!!x                        xxxxxxx                                    x!x  ',
-    '                                      c!!x                     xxxx     xxxx                                 x!x  ',
+    '                                     Tx!!x                     xxxx     xxxx                                 x!x  ',
     '                                      x!!xxxxxxxxxx           xx           xx                                x!x  ',
     '                                      xx!!!!!!!!!!xx         xx             xx                               x!x  ',
-    '                                       xxxcxxxxxx!!x         x                                    o   o   o  x!x  ',
-    '                                                xx!x         x     o   o                                    xx!x  ',
+    '                                       xxxxxxxxxx!!x         x                                    o   o   o  x!x  ',
+    '                                          T     xx!x         x     o   o                                    xx!x  ',
     '                                                 x!x         x                                xxxxxxxxxxxxxxx!!x  ',
     '                                                 xvx         x     x   x                        !!!!!!!!!!!!!!xx  ',
     '                                                             xx  |   |   |  xx            xxxxxxxxxxxxxxxxxxxxx   ',
@@ -130,7 +130,7 @@ export var LEVELS = [
   ],
 
   [
-    '                                                                                                              ',
+    '    t                                                                                                         ',
     '                                                                                                              ',
     '                                                                                                              ',
     '                                                                                                              ',
@@ -151,7 +151,7 @@ export var LEVELS = [
     '                                     xx   xx      x   x      x                                                ',
     '                                      x   xxxxxxxxx   xxxxxxxx              x x                               ',
     '                                      x   x           x                    x!!!x                              ',
-    '                                      x   x           x                     xxx               t               ',
+    '                                      x   x           x                     xxx                               ',
     '                                     xx   xx          x                                                       ',
     '                                      x   x= = = =    x            xxx                                        ',
     '                                      x   x           x           x!!!x                                       ',
