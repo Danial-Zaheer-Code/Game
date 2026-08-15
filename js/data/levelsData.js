@@ -3,7 +3,7 @@ export var LEVELS = [
     '                                                                                                              ',
     '  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ',
     '  x                                                                                                        x  ',
-    '  x  @                                       o       o       o                                             x  ',
+    '  x  @     i                                 o       o       o                                             x  ',
     '  xxxxxxx                                  xxxxx   xxxxx   xxxxx                                           x  ',
     '  x  L  x                        l   L                                                                     x  ',
     '  x  L  x            s           l   L                                 s                                   x  ',

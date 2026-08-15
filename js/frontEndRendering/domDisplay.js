@@ -73,6 +73,18 @@ export class DOMDisplay {
 		return table;
 	}
 
+	_updateShieldDisplay() {
+		const hudShield = document.getElementById('hudShield');
+		if (!hudShield) return;
+		if (this.level.player && this.level.player.hasShield) {
+			hudShield.innerHTML = `<img src="../images/icon.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px; filter: drop-shadow(0 0 4px #00e5ff);" alt="Shield" /> ACTIVE`;
+			hudShield.className = 'hud-item hud-shield shield-active';
+		} else {
+			hudShield.innerHTML = `<img src="../images/icon.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px; opacity: 0.35; filter: grayscale(100%);" alt="Shield" /> NONE`;
+			hudShield.className = 'hud-item hud-shield shield-inactive';
+		}
+	}
+
 	_drawActors() {
 		const wrap = DOMDisplay.element('div');
 
@@ -83,7 +95,14 @@ export class DOMDisplay {
 			rect.style.left = actor.pos.x * DOMDisplay.scale + 'px';
 			rect.style.top = actor.pos.y * DOMDisplay.scale + 'px';
 
-			if (actor.type === 'turret') {
+			if (actor.type === 'player') {
+				if (actor.hasShield) {
+					rect.classList.add('has-shield');
+				}
+				if (actor.invulnerableTimer > 0) {
+					rect.classList.add('invulnerable');
+				}
+			} else if (actor.type === 'turret') {
 				const barrel = rect.appendChild(DOMDisplay.element('div', 'turret-barrel'));
 				barrel.style.transform = `rotate(${actor.angle}rad)`;
 			} else if (actor.type === 'cannon') {
@@ -137,6 +156,7 @@ export class DOMDisplay {
 		this.wrap.className = 'game ' + (this.level.status || '');
 		this._updateCoinsDisplay();
 		this._updateLivesDisplay();
+		this._updateShieldDisplay();
 		this._scrollPlayerIntoView();
 	}
 

@@ -11,6 +11,8 @@ export class Player {
         this.size = new Vector(0.5, 1);
         this.speed = new Vector(0, 0);
         this.isCrouched = false;
+        this.hasShield = false;
+        this.invulnerableTimer = 0;
     }
 
     get type() {
@@ -101,6 +103,10 @@ export class Player {
     }
 
     act(step, level, keys) {
+        if (this.invulnerableTimer > 0) {
+            this.invulnerableTimer = Math.max(0, this.invulnerableTimer - step);
+        }
+
         const onLadder = this._isOnLadder(level);
         if (!onLadder) {
             this._handleCrouch(level, keys);
