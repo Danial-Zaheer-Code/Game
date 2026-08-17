@@ -9,6 +9,7 @@ import { Turret } from './actors/turret.js';
 import { Cannon } from './actors/cannon.js';
 import { Laser } from './actors/laser.js';
 import { Ladder } from './actors/ladder.js';
+import { Shield } from './actors/shield.js';
 
 var actorchars = {
     '@': Player,
@@ -25,6 +26,9 @@ var actorchars = {
     'V': Laser,
     'L': Ladder,
     'l': Ladder,
+    'i': Shield,
+    'I': Shield,
+    'S': Shield,
 };
 
 export class Level {
@@ -128,9 +132,30 @@ export class Level {
     }
 
     playerTouched(type, actor) {
-        if ((type == 'lava' || type == 'enemy' || type == 'trackingEnemy' || type == 'bullet' || type == 'cannonBall' || type == 'explosion' || type == 'laser') && this.status == null) {
-            this.status = 'lost';
-            this.finishDelay = 1;
+        if (type == 'lava' || type == 'enemy' || type == 'trackingEnemy' || type == 'bullet' || type == 'cannonBall' || type == 'explosion' || type == 'laser') {
+            if (this.player && this.player.invulnerableTimer > 0) {
+                // Currently invulnerable after shield break
+                return;
+            }
+            if (this.player && this.player.hasShield) {
+                // Shield breaks, absorbs hit!
+                this.player.hasShield = false;
+                this.player.invulnerableTimer = 0.8;
+                if (type == 'bullet' || type == 'cannonBall' || type == 'explosion') {
+                    this.actors = this.actors.filter(other => other != actor);
+                }
+                return;
+            }
+            if (this.status == null) {
+                this.status = 'lost';
+                this.finishDelay = 1;
+            }
+
+        } else if (type == 'shield') {
+            this.actors = this.actors.filter(other => other != actor);
+            if (this.player) {
+                this.player.hasShield = true;
+            }
 
         } else if (type == 'spring' && this.player) {
             // Super launch player upward

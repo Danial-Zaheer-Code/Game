@@ -91,6 +91,40 @@
 			align-items: center;
 		}
 
+		.hud-shield {
+			color: #00e5ff;
+			font-size: 1.05rem;
+			padding: 5px 14px;
+			border-radius: 18px;
+			border: 1px solid rgba(0, 229, 255, 0.4);
+			transition: all 0.3s ease;
+			display: flex;
+			align-items: center;
+		}
+
+		.hud-shield.shield-active {
+			background: rgba(0, 229, 255, 0.3);
+			border-color: #00e5ff;
+			box-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
+			color: #ffffff;
+			animation: activeShieldPulse 1s infinite alternate;
+		}
+
+		.hud-shield.shield-inactive {
+			background: rgba(255, 255, 255, 0.05);
+			color: #888888;
+		}
+
+		@keyframes activeShieldPulse {
+			from {
+				box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+			}
+
+			to {
+				box-shadow: 0 0 10px rgba(0, 229, 255, 0.9);
+			}
+		}
+
 		.game {
 			position: relative;
 			overflow: hidden;
@@ -127,6 +161,42 @@
 			transition: height 0.1s ease, top 0.1s ease;
 		}
 
+		.player.has-shield {
+			border: 2px solid #ffffff !important;
+			outline: 3px solid #00e5ff !important;
+			outline-offset: 1px !important;
+			box-shadow: 0 0 20px #00e5ff, 0 0 40px #00b0ff, inset 0 0 10px #ffffff !important;
+			animation: shieldAuraGlow 0.8s infinite alternate;
+		}
+
+		.player.invulnerable {
+			animation: invulnerableBlink 0.15s infinite alternate !important;
+		}
+
+		@keyframes shieldAuraGlow {
+			from {
+				outline-color: #00e5ff;
+				box-shadow: 0 0 15px #00e5ff, 0 0 30px #00b0ff, inset 0 0 6px #ffffff;
+			}
+
+			to {
+				outline-color: #ffffff;
+				box-shadow: 0 0 30px #00ffff, 0 0 55px #00e5ff, inset 0 0 14px #ffffff;
+			}
+		}
+
+		@keyframes invulnerableBlink {
+			0% {
+				opacity: 0.3;
+				filter: brightness(200%);
+			}
+
+			100% {
+				opacity: 1;
+				filter: brightness(100%);
+			}
+		}
+
 		.lost .player {
 			background: #ff3333;
 			box-shadow: 0 0 20px #ff0000;
@@ -135,6 +205,27 @@
 		.won .player {
 			background: #00ff66;
 			box-shadow: 0 0 20px #00ff66;
+		}
+
+		.shield {
+			background: url('../images/shield.png') no-repeat center center !important;
+			background-size: 100% 100% !important;
+			border-radius: 50%;
+			box-shadow: 0 0 22px #00e5ff, 0 0 45px rgba(0, 229, 255, 0.8);
+			animation: shieldItemPulse 1.2s infinite alternate;
+			z-index: 6;
+		}
+
+		@keyframes shieldItemPulse {
+			from {
+				box-shadow: 0 0 14px #00e5ff, 0 0 28px rgba(0, 229, 255, 0.6);
+				transform: scale(1.0);
+			}
+
+			to {
+				box-shadow: 0 0 32px #00ffff, 0 0 60px rgba(0, 229, 255, 1);
+				transform: scale(1.22);
+			}
 		}
 
 		.coin {
@@ -494,94 +585,94 @@
 			animation: energyFlowMove 0.25s linear infinite;
 		}
 
-			@keyframes emitterWarmup {
-				from {
-					transform: scale(0.96);
-				}
-
-				to {
-					transform: scale(1.06);
-				}
+		@keyframes emitterWarmup {
+			from {
+				transform: scale(0.96);
 			}
 
-			@keyframes emitterFire {
-				from {
-					transform: scale(1.0);
-				}
+			to {
+				transform: scale(1.06);
+			}
+		}
 
-				to {
-					transform: scale(1.1);
-				}
+		@keyframes emitterFire {
+			from {
+				transform: scale(1.0);
 			}
 
-			@keyframes laserChargeScan {
-				from {
-					opacity: 0.25;
-				}
+			to {
+				transform: scale(1.1);
+			}
+		}
 
-				to {
-					opacity: 0.95;
-				}
+		@keyframes laserChargeScan {
+			from {
+				opacity: 0.25;
 			}
 
-			@keyframes laserEnergyStream {
-				0% {
-					background-position: 0% 50%;
-				}
+			to {
+				opacity: 0.95;
+			}
+		}
 
-				100% {
-					background-position: 200% 50%;
-				}
+		@keyframes laserEnergyStream {
+			0% {
+				background-position: 0% 50%;
 			}
 
-			/* Alternating Pink & Red Neon Glow */
-			@keyframes pinkRedGlowAlternate {
-				0% {
-					box-shadow:
-						0 0 10px #ffffff,
-						0 0 20px #ff0055,
-						0 0 35px #ff007f,
-						0 0 55px rgba(255, 0, 85, 0.9);
-				}
+			100% {
+				background-position: 200% 50%;
+			}
+		}
 
-				50% {
-					box-shadow:
-						0 0 14px #ffffff,
-						0 0 28px #ff007f,
-						0 0 45px #ff0033,
-						0 0 65px rgba(255, 0, 127, 0.95);
-				}
-
-				100% {
-					box-shadow:
-						0 0 18px #ffffff,
-						0 0 32px #ff0033,
-						0 0 50px #ff0055,
-						0 0 75px rgba(255, 0, 51, 1);
-				}
+		/* Alternating Pink & Red Neon Glow */
+		@keyframes pinkRedGlowAlternate {
+			0% {
+				box-shadow:
+					0 0 10px #ffffff,
+					0 0 20px #ff0055,
+					0 0 35px #ff007f,
+					0 0 55px rgba(255, 0, 85, 0.9);
 			}
 
-			@keyframes laserFlicker {
-				from {
-					opacity: 0.88;
-					transform: scaleY(0.92);
-				}
-
-				to {
-					opacity: 1.0;
-					transform: scaleY(1.08);
-				}
+			50% {
+				box-shadow:
+					0 0 14px #ffffff,
+					0 0 28px #ff007f,
+					0 0 45px #ff0033,
+					0 0 65px rgba(255, 0, 127, 0.95);
 			}
 
-			@keyframes energyFlowMove {
-				0% {
-					background-position: 0 0;
-				}
-
-				100% {
-					background-position: 48px 0;
-				}
+			100% {
+				box-shadow:
+					0 0 18px #ffffff,
+					0 0 32px #ff0033,
+					0 0 50px #ff0055,
+					0 0 75px rgba(255, 0, 51, 1);
 			}
+		}
+
+		@keyframes laserFlicker {
+			from {
+				opacity: 0.88;
+				transform: scaleY(0.92);
+			}
+
+			to {
+				opacity: 1.0;
+				transform: scaleY(1.08);
+			}
+		}
+
+		@keyframes energyFlowMove {
+			0% {
+				background-position: 0 0;
+			}
+
+			100% {
+				background-position: 48px 0;
+			}
+		}
 	</style>
 </head>
 
@@ -590,6 +681,7 @@
 	<div class="hud-container">
 		<div class="hud-item hud-level" id="hudLevel">Level 1 / 9</div>
 		<div class="hud-item hud-coins" id="hudCoins">🪙 0 / 0</div>
+		<div class="hud-item hud-shield" id="hudShield"></div>
 		<div class="hud-item">
 			<span class="hud-mode mode-normal" id="hudMode">NORMAL</span>
 		</div>
