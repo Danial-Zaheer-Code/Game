@@ -77,10 +77,10 @@ export class DOMDisplay {
 		const hudShield = document.getElementById('hudShield');
 		if (!hudShield) return;
 		if (this.level.player && this.level.player.hasShield) {
-			hudShield.innerHTML = `<img src="../images/icon.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px; filter: drop-shadow(0 0 4px #00e5ff);" alt="Shield" /> ACTIVE`;
+			hudShield.innerHTML = `<img src="../images/shield.png" style="width: 40px; height: 40px; vertical-align: middle; margin-right: 4px; filter: drop-shadow(0 0 4px #00e5ff);" alt="Shield" /> ACTIVE`;
 			hudShield.className = 'hud-item hud-shield shield-active';
 		} else {
-			hudShield.innerHTML = `<img src="../images/icon.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px; opacity: 0.35; filter: grayscale(100%);" alt="Shield" /> NONE`;
+			hudShield.innerHTML = `<img src="../images/shield.png" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px; opacity: 0.35; filter: grayscale(100%);" alt="Shield" /> NONE`;
 			hudShield.className = 'hud-item hud-shield shield-inactive';
 		}
 	}

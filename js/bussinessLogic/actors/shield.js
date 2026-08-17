@@ -6,7 +6,7 @@ export class Shield {
 
     constructor(pos) {
         this.basePos = this.pos = pos;
-        this.size = new Vector(0.8, 0.8);
+        this.size = new Vector(1.8, 1.8);
         this.wobble = Math.random() * Math.PI * 2;
     }
 
